@@ -381,8 +381,15 @@ let test () : bool =
    `"a" ^ "bc"` evaluates to "abc". *)
 
 let rec join (separator: string) (l: string list) : string =
-  failwith "join: unimplemented"
+  begin match l with
+  | (n::[]) -> n
+  | (n::tail) -> n ^ separator ^ (join separator tail)
+  | [] -> ""
+  | _ -> ""
+end
 
+let test_str : string = (join "-" ["a"; "b"; "c"])
+;; print_string test_str
 let test () : bool =
   (join "," ["a"; "b"; "c"]) = "a,b,c"
 ;; run_test "test_join nonempty separator" test
@@ -392,12 +399,12 @@ let test () : bool =
 ;; run_test "test_join empty separator" test
 
 let test () : bool =
- failwith "Add a real test case"
-;; run_test "test_join [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+ (join "!" ["ab"; "b"; "c"]) = "ab!b!c"
+;; run_test "test_join longer element" test
 
 let test () : bool =
- failwith "Add a real test case"
-;; run_test "test_join [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+ (join "" []) = ""
+;; run_test "test_join empty list" test
 
 
 (*************************************************************************)
