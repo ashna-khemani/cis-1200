@@ -341,7 +341,13 @@ let test () : bool =
    in the input list is true. *)
 
    let rec exists (bools: bool list) : bool =
-    failwith "exists: unimplemented"
+    begin match bools with
+    | [] -> false
+    | (false::tail) -> exists tail
+    | (true::tail) -> true
+    | _ -> false
+   end
+    
   
   (* (The `not` function below takes in a boolean value and returns its
      complement.) *)
@@ -355,12 +361,12 @@ let test () : bool =
   ;; run_test "exists multiple true" test
   
   let test () : bool =
-   failwith "Add a real test case"
-  ;; run_test "exists [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+   not (exists [])
+  ;; run_test "exists [] -> false" test
   
   let test () : bool =
-   failwith "Add a real test case"
-  ;; run_test "exists [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+   (exists [true])
+  ;; run_test "exists [true] -> true" test
 
 
 (*************************************************************************)
