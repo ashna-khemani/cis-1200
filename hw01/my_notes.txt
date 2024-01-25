@@ -1,0 +1,18 @@
+if st = 14, 25, 38, 41, 42 -> two way
+else if st = 24, 59 -> south
+else if st = 58 -> north
+
+else if st < 14
+    if st even -> south
+    else -> north
+else if st > 14
+    if st >= 32
+        if st >= 46
+            twoway
+        else
+            even south
+            odd north
+    else 
+        even north
+        odd south
+    

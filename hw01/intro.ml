@@ -281,8 +281,31 @@ let test () : bool =
    Welcome to Philadelphia! *)
 
 let rec street_direction (st: int) : string =
+  (* Special cases *)
+  if (st=14 || st=25 || st=38 || st=41 || st=42) then ("NS")
+  else if (st=24 || st=59) then ("S")
   
-  failwith "street_direction: unimplemented"
+  
+  else if (st<14) then (
+    if (st mod 2 = 0) then ("S")
+    else ("N")
+  )
+
+  else (  (* st > 14 necessarily here *)
+    if (st >= 32) then (
+      if (st>= 46) then ("NS")
+      else (
+        if (st mod 2 = 0) then ("S")
+        else ("N")
+      )
+    )
+
+    else (  (* st not beyond 32 *)
+      if (st mod 2 = 0) then ("N")
+      else ("S")
+    )
+  )
+
 
 let test () : bool =
   (street_direction 14) = "NS"
@@ -297,12 +320,12 @@ let test () : bool =
 ;; run_test "street_direction 18th goes north" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "street_direction [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (street_direction 41 = "NS")
+;; run_test "street_direction 41 is two way" test
 
 let test () : bool =
- failwith "Add a real test case"
-;; run_test "street_direction [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+ (street_direction 49) = "NS"
+;; run_test "street_direction 49 is two way" test
 
 
 (*************************************************************************)
@@ -315,29 +338,29 @@ let test () : bool =
 (* Problem 5 (exists) *)
 
 (* Write a function that determines whether at least one boolean value
-   in its input list is true. *)
+   in the input list is true. *)
 
-let rec exists (bools: bool list) : bool =
-  failwith "exists: unimplemented"
-
-(* (The `not` function below takes in a boolean value and returns its
-   complement.) *)
-
-let test () : bool =
-  not (exists [false; false])
-;; run_test "exists all false" test
-
-let test () : bool =
-  (exists [true; false; true])
-;; run_test "exists multiple true" test
-
-let test () : bool =
- failwith "Add a real test case"
-;; run_test "exists [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
-
-let test () : bool =
- failwith "Add a real test case"
-;; run_test "exists [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+   let rec exists (bools: bool list) : bool =
+    failwith "exists: unimplemented"
+  
+  (* (The `not` function below takes in a boolean value and returns its
+     complement.) *)
+  
+  let test () : bool =
+    not (exists [false; false])
+  ;; run_test "exists all false" test
+  
+  let test () : bool =
+    (exists [true; false; true])
+  ;; run_test "exists multiple true" test
+  
+  let test () : bool =
+   failwith "Add a real test case"
+  ;; run_test "exists [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  
+  let test () : bool =
+   failwith "Add a real test case"
+  ;; run_test "exists [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
 
 
 (*************************************************************************)
