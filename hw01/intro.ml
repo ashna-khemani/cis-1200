@@ -455,18 +455,19 @@ end
 
 let rec append (l1: string list) (l2: string list) : string list =
   begin match l1,l2 with
-    | [],[] -> ""::[]
+    | [],[] -> []
     | (head_1::tail_1, []) -> head_1::tail_1
     | ([], head_2::tail_2) -> head_2::tail_2
     | (head_1::tail_1, head_2::tail_2) -> head_1::(append tail_1 l2)
     | _ -> []
 end
 
+(* printed this to debug
+let appendStringList : string list = (append [] [])
+let appendString : string = join "" appendStringList
+;; print_endline appendString
+*)
 
-
-let test () : bool =
-  (append ["a";"b";"c"] []) = []
-;; run_test "append one list" test
 let test () : bool =
   (append [] []) = []
 ;; run_test "append two empty lists" test
@@ -476,12 +477,16 @@ let test () : bool =
 ;; run_test "append different lengths" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "append [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (append ["a";"b";"c"] []) = ["a"; "b"; "c"]
+;; run_test "append first list" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "append [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (append [] ["a";"b";"c"]) = ["a"; "b"; "c"]
+;; run_test "append second list" test
+
+let test () : bool =
+  (append ["a";"b";"c"] ["a";"b";"c"]) = ["a"; "b"; "c"; "a"; "b"; "c"]
+;; run_test "append two list" test
 
 
 (*************************************************************************)
