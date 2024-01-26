@@ -428,11 +428,16 @@
      the last few problems in this homework. *)
   
   let rec int_join (separator: string) (l: int list) : string =
-    failwith "int_join: unimplemented"
+    begin match l with
+    | (n::[]) -> string_of_int(n)
+    | (n::tail) -> string_of_int(n) ^ separator ^ (int_join separator tail)
+    | [] -> ""
+    | _ -> ""
+  end
   
-  (*
+  
   ;; print_endline ("[" ^ (int_join ";" [1; 2; 3]) ^ "]")
-  *)
+  
   
   ;; print_endline "End of list printing example"
   ;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~"
