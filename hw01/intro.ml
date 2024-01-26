@@ -419,9 +419,9 @@ let test () : bool =
    out the output of your functions to help you understand why your
    test cases are failing *)
 
-(*
+
 ;; print_endline (join "," ["a"; "b"; "c"])
-*)
+
 
 (* If you would like to print a list of `int`s, you'll need a variant
    of the `join` function for this purpose. We advise that you go
@@ -429,7 +429,7 @@ let test () : bool =
    the last few tasks in this homework. *)
 
 let rec int_join (separator: string) (l: int list) : string =
-  failwith "int_join: unimplemented"
+  failwith "int_join: unimplemented" (*****USE STRING FROM INT OR WHATEVER******)
 
 (*
 ;; print_endline ("[" ^ (int_join ";" [1; 2; 3]) ^ "]")
