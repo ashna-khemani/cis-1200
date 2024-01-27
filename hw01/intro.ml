@@ -160,6 +160,7 @@ let test () : bool =
 
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 2 (geometry) *)
 
 (* Street magicians often use crates as tables in their acts.  Given
@@ -201,7 +202,10 @@ let test () : bool =
 ;; run_test "maximum_table_area one side is 0" test
 
 
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 3 (simulating robot movement) *)
 
 (* Help a robot move along a (linear) track, with spaces numbered 0
@@ -238,8 +242,10 @@ let test () : bool =
   (move_robot 2 "somewhere" 10) = 999
 ;; run_test "invalid direction" test
 
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 4 (Philadelphia geography) *)
 
 (* Philadelphia has a fairly logical layout: the numbered streets
@@ -333,6 +339,8 @@ let test () : bool =
   (street_direction 90) = "N/A"
 ;; run_test "street_direction 90th DOES NOT EXIST" test
 
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
+
 (*************************************************************************)
 
 (* The remaining exercises provide practice with lists and recursion.
@@ -340,6 +348,7 @@ let test () : bool =
     tackling these problems. *)
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 5 (exists) *)
 
 (* Write a function that determines whether at least one boolean value
@@ -373,8 +382,9 @@ let test () : bool =
     (exists [true])
   ;; run_test "exists [true] -> true" test
 
-
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 6 (join) *)
 
 (* Write a function that takes a list of strings and "flattens" it
@@ -413,7 +423,7 @@ let test () : bool =
   (join "" []) = ""
 ;; run_test "test_join empty list" test
 
-
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (*************************************************************************)
 (* Example (printing lists) *)
 
@@ -452,6 +462,7 @@ end
 ;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 7 (append) *)
 
 (* Write a function that takes lists l1 and l2 and returns a list
@@ -497,8 +508,10 @@ let test () : bool =
   (append ["a";"b";"c"] ["a";"b";"c"]) = ["a"; "b"; "c"; "a"; "b"; "c"]
 ;; run_test "append two list" test
 
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 8 (finding names in a list) *)
 
 (* Write a function that checks whether a list of names contains some
@@ -559,8 +572,10 @@ let test () : bool =
   (in_both ["Leo"] ["Frodo"]) = []
 ;; run_test "in_both DISTINCT SINGLETONS" test
 
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 9 (merging lists) *)
 
 (* Write a function that merges two input lists into a single list
@@ -572,24 +587,31 @@ let test () : bool =
     The lengths of the two lists may not be the same -- any left over
     elements should appear at the very end of the result. *)
 
+
 let rec merge (l1: int list) (l2: int list) : int list =
-  failwith "merge: unimplemented"
+  begin match l1, l2 with
+    | [], [] -> []
+    | (h1::t1), [] -> h1::(merge t1 l2)
+    | [], (h2::t2) -> h2::(merge l1 t2)
+    | (h1::t1), (h2::t2) -> h1::h2::(merge t1 t2)
+  end
 
 let test () : bool =
   (merge [1; 3; 5; 7] [2; 4; 6; 8]) = [1; 2; 3; 4; 5; 6; 7; 8]
 ;; run_test "merge lists same size" test
+
 
 let test () : bool =
   (merge [] [1; 2; 3]) = [1; 2; 3]
 ;; run_test "merge one empty list" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "merge [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (merge [1; 1; 1; 1] [0; 0]) = [1; 0; 1; 0; 1; 1]
+;; run_test "merge DIFF SIZE LISTS" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "merge [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (merge [] []) = []
+;; run_test "merge TWO EMPTY LISTS" test
 
 
 (*************************************************************************)
