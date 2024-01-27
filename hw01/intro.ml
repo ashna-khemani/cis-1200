@@ -681,7 +681,7 @@ let test () : bool =
 let test () : bool =
   (merge_sorted [2;4;6] [2;4;6]) = [2;2;4;4;6;6]
 ;; run_test "merge_sorted IDENTICAL LISTS" test
-
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
 (* Problem 12 (sublist) *)
@@ -697,8 +697,9 @@ let test () : bool =
     to define sublist. *)
 
 
+
 let rec sublist (l1: int list) (l2: int list) : bool =
-  failwith "sublist: unimplemented"
+  failwith "sublist: not implemented"
 
 let test () : bool =
   (sublist [] [])
@@ -730,10 +731,29 @@ let test () : bool =
     skipped.  If you cannot compute an average, for whatever reason,
     your function should return -1.  *)
 
-
+(*** NEED A HELPER FUNCTION. ****)
+let rec rainfall_rec_helper (readings : int list) : int = 
+  let sum : int = 0 in
+  let prevSum = sum in
+  let numData : int = 0 in
+  let prevNumData : int = numData in
+  begin match readings with
+    | [] -> sum/numData (* Reached end of list -> give final avg *)
+    | (h::t) -> 
+        if (h= -999) then (sum/numData)  (* -999 -> Calculate avg and be done *)
+        else if (h<0) then (rainfall_rec_helper t) (* Neg -> Ignore this pt and continue w rest of list*)
+        else (  
+          let prevSum = sum                        (* Valid -> Add this data pt, look at rest of list*)
+          let sum = prevSums + h 
+          let prevNumData = numData
+          let numData = prevNumData + 1 
+          (rainfall_rec_helper t)
+        )
+    end
 
 let rainfall (readings: int list) : int =
-  failwith "rainfall: unimplemented"
+  (rainfall_rec_helper readings)
+
 
 (* For example, if we have readings [1; 2; 3], then the average
     rainfall is (1 + 2 + 3) / 3 = 6/3 = 2. *)
