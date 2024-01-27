@@ -612,9 +612,10 @@ let test () : bool =
 let test () : bool =
   (merge [] []) = []
 ;; run_test "merge TWO EMPTY LISTS" test
-
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 10 (is_sorted) *)
 
 (* Write a function that determines whether a given list of integers
@@ -645,9 +646,10 @@ let test () : bool =
 let test () : bool =
   (is_sorted [9])
 ;; run_test "is_sorted SINGLETON LIST" test
-
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 (*************************************************************************)
+;; print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~"
 (* Problem 11 (merge_sorted) *)
 
 (* Write a function that takes two sorted lists (in ascending order)
@@ -655,7 +657,14 @@ let test () : bool =
     elements from the two input lists. *)
 
 let rec merge_sorted (l1: int list) (l2: int list) : int list =
-  failwith "merge_sorted: unimplemented"
+  begin match l1, l2 with
+    | [], [] -> []
+    | (h1::t1), [] -> l1
+    | [], (h2::t2) -> l2
+    | (h1::t1), (h2::t2) -> 
+        if (h1<=h2) then (h1::(merge_sorted t1 l2))
+        else (h2::(merge_sorted l1 t2))
+    end 
 
 let test () : bool =
   (merge_sorted [2; 7] [3; 5; 11]) = [2; 3; 5; 7; 11]
@@ -666,12 +675,12 @@ let test () : bool =
 ;; run_test "merge_sorted lists same size" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "merge_sorted [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (merge_sorted [] [1;2;3]) = [1;2;3]
+;; run_test "merge_sorted 1 EMPTY LIST" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "merge_sorted [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (merge_sorted [2;4;6] [2;4;6]) = [2;2;4;4;6;6]
+;; run_test "merge_sorted IDENTICAL LISTS" test
 
 
 (*************************************************************************)
