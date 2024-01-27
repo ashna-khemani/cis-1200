@@ -626,8 +626,10 @@ let test () : bool =
     considered sorted. *)
 
 let rec is_sorted (l: int list) : bool =
-  failwith "is_sorted: unimplemented"
-
+  begin match l with
+    | (h_a::h_b::t) -> if (h_a <= h_b) then (is_sorted t) else false
+    | _ -> true (*Catch-all for nil and singleton lists*)
+  end 
 let test () : bool =
   (is_sorted [1; 2; 3])
 ;; run_test "is_sorted sorted list" test
@@ -637,12 +639,12 @@ let test () : bool =
 ;; run_test "is_sorted unsorted list" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "is_sorted [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (is_sorted [])
+;; run_test "is_sorted EMPTY LIST" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "is_sorted [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (is_sorted [9])
+;; run_test "is_sorted SINGLETON LIST" test
 
 
 (*************************************************************************)
