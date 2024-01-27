@@ -496,7 +496,10 @@ let test () : bool =
     particular name. *)
 
 let rec contains_str (l: string list) (name: string) : bool =
-  failwith "contains_str: unimplemented"
+  begin match l with
+  | [] -> false
+  | (head::tail) -> if (head=name) then true else (contains_str tail name)
+end
 
 let test () : bool =
   (contains_str ["Garnet"; "Amethyst"; "Pearl"] "Amethyst")
@@ -507,12 +510,12 @@ let test () : bool =
 ;; run_test "contains_str name not in list" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "contains [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  not (contains_str [] "Leo")
+;; run_test "contains_str EMPTY LIST" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "contains [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  contains_str ["Leo"] "Leo"
+;; run_test "contains_str name is the only element" test
 
 
 (* Next, write a function that, given two lists of names, filters the
@@ -522,7 +525,12 @@ let test () : bool =
     appear in the first list. *)
 
 let rec in_both (names1: string list) (names2: string list) : string list =
-  failwith "in_both: unimplemented"
+  begin match names1, names2 with
+    | [], [] -> []
+    | (h1::t1), [] -> []
+    | [], (h2::t2) -> []
+    | (h1::t1), (h2::t2) -> if (contains_str names2 h1) then (append (h1::[]) (in_both t1 names2)) else (in_both t1 names2)
+  end
 
 let test () : bool =
   (in_both ["Garnet"; "Amethyst"; "Pearl"] ["Pearl"; "Steven"]) = ["Pearl"]
@@ -532,13 +540,15 @@ let test () : bool =
   (in_both [] ["Pearl"; "Steven"]) = []
 ;; run_test "in_both empty name list" test
 
+
+;; print_string (join "," (in_both ["Leo"; "Frodo"; "Wilson"] ["Frodo"; "Leo"]))
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "in_both [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (in_both ["Leo"; "Frodo"; "Wilson"] ["Frodo"; "Leo"]) = ["Leo"; "Frodo"]
+;; run_test "in_both MULTIPLE NAMES" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "in_both [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  (in_both ["Leo"] ["Frodo"]) = []
+;; run_test "in_both DISTINCT SINGLETONS" test
 
 
 (*************************************************************************)
