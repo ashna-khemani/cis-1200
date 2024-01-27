@@ -283,13 +283,19 @@ let rec street_direction (st: int) : string =
   
   
   else if (st<14) then (
-    if (st mod 2 = 0) then ("S")
-    else ("N")
+    if (st<1) then ("N/A")  (*Don't consider less than 1st*)
+    else (
+      if (st mod 2 = 0) then ("S")
+      else ("N")
+    )
   )
 
   else (  (* st > 14 necessarily here *)
     if (st >= 32) then (
-      if (st>= 46) then ("NS")
+      if (st>= 46) then (
+        if (st>69) then ("N/A")  (* Don't consider beyond 69th*)
+        else ("NS")
+      )
       else (
         if (st mod 2 = 0) then ("S")
         else ("N")
@@ -323,6 +329,9 @@ let test () : bool =
   (street_direction 49) = "NS"
 ;; run_test "street_direction 49 is two way" test
 
+let test () : bool =
+  (street_direction 90) = "N/A"
+;; run_test "street_direction 90th DOES NOT EXIST" test
 
 (*************************************************************************)
 
