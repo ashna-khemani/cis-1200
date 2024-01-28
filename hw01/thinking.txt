@@ -1,0 +1,50 @@
+(* Write a function that takes two integer lists (not necessarily
+    sorted) and returns true precisely when the first list is a sublist
+    of the second.
+  
+    The first list may appear anywhere within the second, but its elements
+    must appear contiguously.
+  
+    HINT: You should define (and test!) a helper function that you can use
+    to define sublist. *)
+
+
+
+Until you find a common element between l1 and l2:
+    Take elem of l1. Compare it against each elem in l2. Do until you find a match
+
+Once you find a match:
+    Take the next elem of l1, compare with the next elem of l2
+        If SAME --> repeat for all elems of l1
+        If DIFF --> move to next elem of l1, search all of l2 for it and start over.
+
+If no common elements are found --> return FALSE 
+
+
+
+
+
+
+
+
+
+(* Problem 13 (rainfall) *)
+
+(* Design and implement a function called `rainfall` that consumes a
+    list of ints representing daily rainfall readings. The list may
+    contain the number -999 indicating the end of the data of interest.
+  
+    Produce the average of the non-negative values in the list up to
+    the first -999 (if any). There may be negative numbers other than
+    -999 in the list; these represent faulty readings and should be
+    skipped.  If you cannot compute an average, for whatever reason,
+    your function should return -1.  *)
+
+sum = 0
+numDataPts
+* If elem = -999 --> stop
+* If elem < 0 --> skip
+* Else --> sum+=elem, numDataPts++
+
+If numDataPts = 0 --> return -1
+return sum/numDataPts

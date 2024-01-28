@@ -698,7 +698,7 @@ let test () : bool =
 
 
 
-let rec sublist (l1: int list) (l2: int list) : bool =
+(* let rec sublist (l1: int list) (l2: int list) : bool =
   failwith "sublist: not implemented"
 
 let test () : bool =
@@ -715,7 +715,7 @@ let test () : bool =
 
 let test () : bool =
   not (sublist [2;3] [2;1;3])
-;; run_test "sublist elements are not contiguous" test
+;; run_test "sublist elements are not contiguous" test *)
 
 
 (*************************************************************************)
@@ -732,34 +732,28 @@ let test () : bool =
     your function should return -1.  *)
 
 (*** NEED A HELPER FUNCTION. ****)
-let rec rainfall_rec_helper (readings : int list) : int = 
-  let sum : int = 0 in
-  let prevSum = sum in
-  let numData : int = 0 in
-  let prevNumData : int = numData in
-  begin match readings with
-    | [] -> sum/numData (* Reached end of list -> give final avg *)
-    | (h::t) -> 
-        if (h= -999) then (sum/numData)  (* -999 -> Calculate avg and be done *)
-        else if (h<0) then (rainfall_rec_helper t) (* Neg -> Ignore this pt and continue w rest of list*)
-        else (  
-          let prevSum = sum                        (* Valid -> Add this data pt, look at rest of list*)
-          let sum = prevSums + h 
-          let prevNumData = numData
-          let numData = prevNumData + 1 
-          (rainfall_rec_helper t)
-        )
-    end
+
+let rec process_rain_data (data : int list)(sum : int)(numData : int) : int =
+  begin match data with
+  | [] -> if (numData>0) then (sum/numData) else (-1) (* Reached end of list --> give result*)
+  | (h::t) ->
+      if (h= -999) then (
+        if (numData>0) then (sum/numData) else (-1) (* Reached end of valid data --> give result*)
+      )
+      else if (h<0) then(
+        process_rain_data t sum numData (* Don't consider this point and continue with rest of list*)
+      )
+      else (process_rain_data t (sum+h) (numData+1))  (* Consider this point and continue with rest of list*)
+  end
 
 let rainfall (readings: int list) : int =
-  (rainfall_rec_helper readings)
-
+  process_rain_data readings 0 0
 
 (* For example, if we have readings [1; 2; 3], then the average
     rainfall is (1 + 2 + 3) / 3 = 6/3 = 2. *)
 let test () : bool =
   rainfall [1; 2; 3] = 2
-;; run_test "example" test
+;; run_test "rain: straightforward example" test
 
 (* NOTE: for simplicity, you should only use int operations in this
     problem.  This may lead to slightly wrong answers, as integer
@@ -775,12 +769,12 @@ let test () : bool =
     situations in the problem description. *)
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "rainfall [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  rainfall [-1; 4; 4; -400] = 4
+;; run_test "rainfall: NEG ENTRIES should be ignored" test
 
 let test () : bool =
-  failwith "Add a real test case"
-;; run_test "rainfall [ADD A DESCRIPTIVE NAME FOR YOUR TEST HERE]" test
+  rainfall [2; 2; 2; -999; 4; 4] = 2
+;; run_test "rainfall -999 SHOULD STOP CALCULATIONS" test
 
 
 (*************************************************************************)
