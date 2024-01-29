@@ -696,10 +696,25 @@ let test () : bool =
     HINT: You should define (and test!) a helper function that you can use
     to define sublist. *)
 
+(* Helper: are following elements in l2 (tail of l2) equal to l1? *)
+let rec check_tails_match (l1 : int list)(l2 : int list) : bool = 
+  begin match l1, l2 with 
+    | [], _ -> true (* All elems of t1 were found *)
+    | (h1::t1), [] -> false (* Hit the end of l2 before all of l1 was found *)
+    | (th1::tt1), (th2::tt2) ->
+        if (th1=th2) then (check_tails_match tt1 tt2)
+        else (false)
+  end
 
-
-(* let rec sublist (l1: int list) (l2: int list) : bool =
-  failwith "sublist: not implemented"
+(* Main funct: cycle through l2 until find 1st elem of l1 in l2*)
+let rec sublist (l1: int list) (l2: int list) : bool =
+  begin match l1, l2 with
+    | [], _ -> true
+    | (h1::t1), [] -> false
+    | (h1::t1), (h2::t2) -> 
+        if (h1=h2) then (check_tails_match t1 t2) 
+        else (sublist l1 t2)
+      end
 
 let test () : bool =
   (sublist [] [])
@@ -715,7 +730,7 @@ let test () : bool =
 
 let test () : bool =
   not (sublist [2;3] [2;1;3])
-;; run_test "sublist elements are not contiguous" test *)
+;; run_test "sublist elements are not contiguous" test 
 
 
 (*************************************************************************)
